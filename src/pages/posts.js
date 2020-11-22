@@ -1,12 +1,12 @@
 import * as React from "react";
-import axios from "axios";
+import { client } from "../utils/api-clients";
 
-import { useAsync } from "../hooks/useAsync";
+import { useAsync } from "../utils/hooks/useAsync";
 
 const Posts = () => {
   const { execute, data, isLoading, isSuccess } = useAsync();
   React.useEffect(() => {
-    execute(axios.get("https://jsonplaceholder.typicode.com/posts"));
+    execute(client("posts"));
   }, [execute]);
 
   if (isLoading) return <h1>Loading...</h1>;
