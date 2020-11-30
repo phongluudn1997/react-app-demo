@@ -20,6 +20,7 @@ const AuthProvider = props => {
     data: user,
     isLoading,
     isSuccess,
+    isIdle,
     isError,
     error,
     setData,
@@ -27,7 +28,7 @@ const AuthProvider = props => {
   } = useAsync()
 
   React.useEffect(() => {
-    execute(client("me", { token: localStorage.getItem("token") }))
+    execute(client("users/me", { token: localStorage.getItem("token") }))
   }, [execute])
 
   const login = React.useCallback(
@@ -57,12 +58,15 @@ const AuthProvider = props => {
     [login, logout, register, user]
   )
 
-  if (isLoading) return <h1>Loading...</h1>
+  if (isLoading || isIdle) return <h1>Loading...</h1>
 
-  if (isError) return <h1>Error: {error.message}</h1>
+  if (isError) return <h1>Error: {error.response.data.message}</h1>
 
-  if (isSuccess) return <AuthContext.Provider value={value} {...props} />
-  else throw new Error("Unhandle status")
+  if (isSuccess) {
+    console.log("LOGINED")
+    return <AuthContext.Provider value={value} {...props} />
+  } else {
+    throw new Error("Unhandle error")
+  }
 }
-
 export { useAuth, AuthProvider }
