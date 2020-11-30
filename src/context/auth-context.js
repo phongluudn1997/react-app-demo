@@ -27,8 +27,18 @@ const AuthProvider = props => {
     execute,
   } = useAsync()
 
+  const getUser = async () => {
+    let user = null
+    const token = await auth.getToken()
+    if (token) {
+      const data = await client("users/me", { token })
+      user = data.user
+    }
+    return user
+  }
+
   React.useEffect(() => {
-    execute(client("users/me", { token: localStorage.getItem("token") }))
+    execute(getUser())
   }, [execute])
 
   const login = React.useCallback(
@@ -60,7 +70,7 @@ const AuthProvider = props => {
 
   if (isLoading || isIdle) return <h1>Loading...</h1>
 
-  if (isError) return <h1>Error: {error.response.data.message}</h1>
+  if (isError) return <h1>Error: {error.message}</h1>
 
   if (isSuccess) {
     console.log("LOGINED")

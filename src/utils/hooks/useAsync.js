@@ -43,8 +43,7 @@ const useAsync = () => {
       dispatch({ type: "loading" })
       return promise
         .then(data => {
-          setData(data.data)
-          return data.data
+          setData(data)
         })
         .catch(error => {
           setError(error)

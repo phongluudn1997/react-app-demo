@@ -1,13 +1,11 @@
-import "./App.css";
+import "./App.css"
 
-import { Posts } from "./pages/posts";
+import { useAuth } from "./context/auth-context"
+import AuthenticatedApp from "./authenticated"
 
 function App() {
-  return (
-    <div className="App">
-      <Posts />
-    </div>
-  );
+  const { user } = useAuth()
+  return <div className="App">{user ? <AuthenticatedApp /> : "Login page"}</div>
 }
 
-export default App;
+export default App
