@@ -28,13 +28,9 @@ const AuthProvider = props => {
   } = useAsync()
 
   const getUser = async () => {
-    let user = null
     const token = await auth.getToken()
-    if (token) {
-      const data = await client("users/me", { token })
-      user = data.user
-    }
-    return user
+    if (!token) return
+    return await client("users/me", { token })
   }
 
   React.useEffect(() => {
@@ -70,10 +66,9 @@ const AuthProvider = props => {
 
   if (isLoading || isIdle) return <h1>Loading...</h1>
 
-  if (isError) return <h1>Error: {error.message}</h1>
+  if (isError) return <h1>Error: {error.response.data.message}</h1>
 
   if (isSuccess) {
-    console.log("LOGINED")
     return <AuthContext.Provider value={value} {...props} />
   } else {
     throw new Error("Unhandle error")

@@ -1,20 +1,7 @@
-import * as React from "react";
-import { client } from "../utils/api-clients";
-
-import { useAsync } from "../utils/hooks/useAsync";
+import * as React from "react"
 
 const Posts = () => {
-  const { execute, data, isLoading, isSuccess } = useAsync();
-  React.useEffect(() => {
-    execute(client("posts"));
-  }, [execute]);
+  return <h1>Posts</h1>
+}
 
-  if (isLoading) return <h1>Loading...</h1>;
-  else if (isSuccess) {
-    console.log(data);
-  }
-
-  return <h1>Posts</h1>;
-};
-
-export { Posts };
+export { Posts }
