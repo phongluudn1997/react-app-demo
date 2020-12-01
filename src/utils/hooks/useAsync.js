@@ -33,6 +33,7 @@ const useAsync = () => {
   const setData = React.useCallback(data => {
     dispatch({ type: "success", data })
   }, [])
+
   const setError = React.useCallback(
     error => dispatch({ type: "error", error }),
     []

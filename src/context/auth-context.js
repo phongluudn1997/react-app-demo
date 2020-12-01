@@ -66,7 +66,9 @@ const AuthProvider = props => {
 
   if (isLoading || isIdle) return <h1>Loading...</h1>
 
-  if (isError) return <h1>Error: {error.response.data.message}</h1>
+  if (isError) {
+    throw error
+  }
 
   if (isSuccess) {
     return <AuthContext.Provider value={value} {...props} />
